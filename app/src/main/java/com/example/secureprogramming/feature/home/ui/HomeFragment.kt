@@ -73,7 +73,6 @@ class HomeFragment : Fragment() {
                         R.id.action_logout -> {
                             viewModel.logout()
                             val navController = findNavController()
-                            navController.popBackStack(R.id.homeFragment, true);
                             navController.navigate(R.id.action_homeFragment_to_signInFragment)
                             true
                         }

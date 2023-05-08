@@ -57,14 +57,11 @@ class UpdatePasswordFragment : Fragment() {
         }
 
         viewModel.responseMessage.observe(viewLifecycleOwner) {
-            ProgressDialogUtil.hideProgressDialog()
-            MySharedPreferences.resetLoginAttempts()
             viewModel.password.value?.let { MySharedPreferences.setHashKey(it) }
             findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
         }
 
         viewModel.responseMessage.observe(viewLifecycleOwner) {
-            ProgressDialogUtil.hideProgressDialog()
             Toast.makeText(activity, it.first, Toast.LENGTH_SHORT).show()
             if (it.second) {
                 findNavController().popBackStack()

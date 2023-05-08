@@ -33,7 +33,7 @@ class SignInFragment : Fragment() {
     private val viewModel: SignInViewModel by viewModels()
 
     companion object {
-        const val MAX_LOGIN_ATTEMPTS = 3
+        const val MAX_LOGIN_ATTEMPTS = 5
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
