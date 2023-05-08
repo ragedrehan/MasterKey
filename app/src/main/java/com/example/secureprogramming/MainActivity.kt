@@ -1,54 +1,34 @@
 package com.example.secureprogramming
 
-import android.R.attr.password
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.secureprogramming.ui.theme.SecureProgrammingTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.AndroidEntryPoint
 
 
-class MainActivity : ComponentActivity() {
-    private lateinit var auth: FirebaseAuth
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            SecureProgrammingTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navInflater = navHostFragment.navController.navInflater
+        val graph = navInflater.inflate(R.navigation.nav_graph)
+
+        // Check some condition and set the initial destination of the nav graph
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            graph.setStartDestination(R.id.homeFragment)
+        } else {
+            graph.setStartDestination(R.id.signInFragment)
         }
 
+        navHostFragment.navController.graph = graph
 
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SecureProgrammingTheme {
-        Greeting("Android")
-    }
 }
